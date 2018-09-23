@@ -6,8 +6,7 @@
   <link rel="stylesheet" href="./bower_components/semantic-ui-icon/icon.min.css">
   <link rel="stylesheet" href="./select-style/style.css">
   <script src="./bower_components/ace-builds/src-min-noconflict/ace.js"></script>
-  <script src="./bower_components/js-sha256/build/sha256.min.js"></script>
-  <script src="./bower_components/js-sha512/build/sha512.min.js"></script>
+  <script src="./bower_components/crypto-js/crypto-js.js"></script>
   <style type="text/css" media="screen">
       .editor {
           width: 42%;
@@ -27,6 +26,8 @@
       <div id="editorA" class="editor">Hello Word!!</div>
       <div class="btnlist">
         <select class="styled-select blue semi-square" style="width:130px;" id="sha_type">
+          <option value="sha1">sha1</option>
+          <option value="sha3">sha3</option>
           <option value="sha224">sha224</option>
           <option value="sha256">sha256</option>
           <option value="sha384">sha384</option>
@@ -47,17 +48,23 @@
         let value = editorA.getValue();
         let shaType = document.getElementById('sha_type').value;
         switch (shaType) {
+          case 'sha1':
+            editorB.setValue(CryptoJS.SHA1(value).toString());
+            break;
+          case 'sha3':
+            editorB.setValue(CryptoJS.SHA3(value).toString());
+            break;
           case 'sha224':
-            editorB.setValue(sha224(value));
+            editorB.setValue(CryptoJS.SHA224(value).toString());
             break;
           case 'sha256':
-            editorB.setValue(sha256(value));
+            editorB.setValue(CryptoJS.SHA256(value).toString());
             break;
           case 'sha384':
-            editorB.setValue(sha384(value));
+            editorB.setValue(CryptoJS.SHA384(value).toString());
             break;
           case 'sha512':
-            editorB.setValue(sha512(value));
+            editorB.setValue(CryptoJS.SHA512(value).toString());
             break;
         }
       }
