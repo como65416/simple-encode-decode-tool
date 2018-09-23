@@ -1,0 +1,24 @@
+{
+  "name": "Simple Encode Decode Tool",
+  "description": "",
+  "main": "",
+  "authors": [
+    "comoco <como65416@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/como65416/simple-encode-decode-tool",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ace-builds": "^1.4.1",
+    "semantic-ui-button": "^2.4.0",
+    "semantic-ui-icon": "^2.4.0",
+    "js-sha256": "^0.9.0",
+    "js-sha512": "^0.8.0"
+  }
+}
