@@ -1,0 +1,66 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>SHA Encrypt</title>
+  <link rel="stylesheet" href="./bower_components/semantic-ui-button/button.min.css">
+  <link rel="stylesheet" href="./bower_components/semantic-ui-icon/icon.min.css">
+  <link rel="stylesheet" href="./select-style/style.css">
+  <script src="./bower_components/ace-builds/src-min-noconflict/ace.js"></script>
+  <script src="./bower_components/js-sha256/build/sha256.min.js"></script>
+  <script src="./bower_components/js-sha512/build/sha512.min.js"></script>
+  <style type="text/css" media="screen">
+      .editor {
+          width: 42%;
+          height: 100%;
+          font-size: 16px;
+          display: inline-block;
+      }
+      .btnlist {
+          height: 100%;
+          vertical-align: middle;
+          display: inline-block;
+      }
+  </style>
+</head>
+<body>
+  <center style="height:100%;">
+      <div id="editorA" class="editor">Hello Word!!</div>
+      <div class="btnlist">
+        <select class="styled-select blue semi-square" style="width:130px;" id="sha_type">
+          <option value="sha224">sha224</option>
+          <option value="sha256">sha256</option>
+          <option value="sha384">sha384</option>
+          <option value="sha512">sha512</option>
+        </select>
+        <br><br>
+        <button class="ui primary button" onclick="encrypt()">Encrypt<i class="angle right icon"></i></button><br><br>
+      </div>
+      <div id="editorB" class="editor"></div>
+  </center>
+  <script>
+      var editorA = ace.edit("editorA");
+      editorA.setTheme("ace/theme/monokai");
+      var editorB = ace.edit("editorB");
+      editorB.setTheme("ace/theme/monokai");
+
+      function encrypt() {
+        let value = editorA.getValue();
+        let shaType = document.getElementById('sha_type').value;
+        switch (shaType) {
+          case 'sha224':
+            editorB.setValue(sha224(value));
+            break;
+          case 'sha256':
+            editorB.setValue(sha256(value));
+            break;
+          case 'sha384':
+            editorB.setValue(sha384(value));
+            break;
+          case 'sha512':
+            editorB.setValue(sha512(value));
+            break;
+        }
+      }
+  </script>
+</body>
+</html>

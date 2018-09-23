@@ -1,0 +1,48 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Base64 Encode Decode</title>
+  <link rel="stylesheet" href="./bower_components/semantic-ui-button/button.min.css">
+  <link rel="stylesheet" href="./bower_components/semantic-ui-icon/icon.min.css">
+  <script src="./bower_components/ace-builds/src-min-noconflict/ace.js"></script>
+  <style type="text/css" media="screen">
+      .editor {
+          width: 42%;
+          height: 100%;
+          font-size: 16px;
+          display: inline-block;
+      }
+      .btnlist {
+          height: 100%;
+          vertical-align: middle;
+          display: inline-block;
+      }
+  </style>
+</head>
+<body>
+  <center style="height:100%;">
+      <div id="editorA" class="editor">Hello Word!!</div>
+      <div class="btnlist">
+        <button class="ui primary button" onclick="encode()">Encode<i class="angle right icon"></i></button><br><br>
+        <button class="ui primary button" onclick="decode()"><i class="angle left icon"></i>Decode</button>
+      </div>
+      <div id="editorB" class="editor">SGVsbG8gV29yZCEh</div>
+  </center>
+  <script>
+      var editorA = ace.edit("editorA");
+      editorA.setTheme("ace/theme/monokai");
+      var editorB = ace.edit("editorB");
+      editorB.setTheme("ace/theme/monokai");
+
+      function encode() {
+        let value = editorA.getValue();
+        editorB.setValue(btoa(unescape(encodeURIComponent(value))));
+      }
+
+      function decode() {
+        let value = editorB.getValue();
+        editorA.setValue(decodeURIComponent(escape(window.atob(value))));
+      }
+  </script>
+</body>
+</html>
