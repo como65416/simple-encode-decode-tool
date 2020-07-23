@@ -1,0 +1,110 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Bcrypt</title>
+  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+  <link rel="stylesheet" href="./bower_components/semantic-ui-button/button.min.css">
+  <link rel="stylesheet" href="./bower_components/semantic-ui-icon/icon.min.css">
+  <link rel="stylesheet" href="./bower_components/semantic-ui-dropdown/dropdown.min.css">
+  <link rel="stylesheet" href="./bower_components/semantic-ui-form/form.min.css">
+  <link rel="stylesheet" href="./bower_components/semantic-ui-label/label.min.css">
+  <script src="./bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="./bower_components/ace-builds/src-min-noconflict/ace.js"></script>
+  <script src="./bower_components/bcryptjs/dist/bcrypt.min.js"></script>
+  <script src="./bower_components/semantic-ui-form/form.min.js"></script>
+  <script src="./bower_components/semantic-ui-dropdown/dropdown.min.js"></script>
+  <script>if (window.module) module = window.module;</script>
+  <style type="text/css" media="screen">
+      .encode-block {
+          height: 45%;
+      }
+      .editor {
+          width: 42%;
+          height: 100%;
+          font-size: 16px;
+          display: inline-block;
+      }
+      .btnlist {
+          height: 100%;
+          vertical-align: middle;
+          display: inline-block;
+      }
+  </style>
+</head>
+<body>
+  <div style="height:100%;">
+      <h2>Hash</h2>
+      <div class="encode-block">
+          <div id="editorA" class="editor">d4sD$2r12s</div>
+          <div class="btnlist">
+            Rounds:
+            <select class="ui dropdown" id="hashRoundSelect">
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10" selected>10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+            </select>
+            <br />
+            <button class="ui primary button" onclick="hash()">Hash<i class="angle right icon"></i></button>
+            <br /><br />
+          </div>
+          <div id="editorB" class="editor"></div>
+      </div>
+      <hr />
+      <div class="validate-block">
+          <h2>Validate</h2>
+          <div class="ui mini form">
+            <div class="field">
+              <label>Hash to check</label>
+              <input type="text" placeholder="Hash to check" id="hashToCheckInput">
+            </div>
+            <div class="field">
+              <label>Password</label>
+              <input type="text" placeholder="Password" id="passwordInput">
+            </div>
+            <button class="ui button" onClick="check()">Check</button>
+            <span class="ui green label hidden" id="validatedLabel">Validated</span>
+            <span class="ui red label hidden" id="notValidatedLabel">Not Validated</span>
+          </div>
+      </div>
+  </div>
+  <script>
+      var editorA = ace.edit("editorA");
+      editorA.setTheme("ace/theme/monokai");
+      var editorB = ace.edit("editorB");
+      editorB.setTheme("ace/theme/monokai");
+
+      function hash() {
+        let bcrypt = dcodeIO.bcrypt;
+        let content = editorA.getValue();
+        let lines = content.split("\n");
+        let outLines = [];
+        for (let line of lines) {
+            let round = parseInt(document.getElementById('hashRoundSelect').value);
+            salt = bcrypt.genSaltSync(round);
+            outLines.push(line.length == 0 ? '' : bcrypt.hashSync(line, salt));
+            editorB.setValue(outLines.join("\n"));
+        }
+      }
+
+      function check() {
+        let bcrypt = dcodeIO.bcrypt;
+        let hashToCheck = document.getElementById('hashToCheckInput').value;
+        let password = document.getElementById('passwordInput').value;
+
+        if (bcrypt.compareSync(password, hashToCheck)) {
+          document.getElementById('validatedLabel').classList.remove("hidden");
+          document.getElementById('notValidatedLabel').classList.add("hidden");
+        } else {
+          document.getElementById('validatedLabel').classList.add("hidden");
+          document.getElementById('notValidatedLabel').classList.remove("hidden");
+        }
+      }
+  </script>
+</body>
+</html>
